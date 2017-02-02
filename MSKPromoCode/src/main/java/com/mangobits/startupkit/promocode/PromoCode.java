@@ -11,12 +11,13 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Entity(name="userNotifications")
+@Entity(name="promoCode")
 @Indexed
 public class PromoCode {
 	
@@ -30,6 +31,7 @@ public class PromoCode {
     private String id;
 	
 	
+	@Field
 	private String code;
 	
 	
@@ -65,6 +67,18 @@ public class PromoCode {
 	
 	
 	private Double discountValue;
+	
+	
+	
+	public PromoCode(){
+		
+	}
+	
+	
+	
+	public PromoCode(String id){
+		this.id = id;
+	}
 
 
 

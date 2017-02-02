@@ -74,6 +74,17 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 				throw new BusinessException("promocode_not_found");
 			}
 			
+			if(promoCode.getExpirationDate().before(new Date())){
+				promoCode.setStatus(PromoCodeStatusEnum.EXPIRED);
+				promoCodeDAO.update(promoCode);
+				
+				throw new BusinessException("promocode_expired");
+			}
+			
+			if(promoCode.getStatus().equals(PromoCodeStatusEnum.USED)){
+				throw new BusinessException("promocode_used");
+			}
+			
 			promoCode.setConsumeDate(new Date());
 			promoCode.setStatus(PromoCodeStatusEnum.USED);
 			promoCode.setIdUserConsumer(user.getId());
@@ -116,5 +127,23 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 		}
 		
 		return numberStr;
+	}
+
+
+
+	@Override
+	public PromoCode loadCode(String id) throws ApplicationException, BusinessException {
+		
+		PromoCode promoCode = null;
+		
+		try {
+			
+			promoCode = promoCodeDAO.retrieve(new PromoCode(id));
+			
+		} catch (Exception e) {
+			throw new ApplicationException("Got an error trying to redeem a promo code", e);
+		}
+		
+		return promoCode;
 	}
 }

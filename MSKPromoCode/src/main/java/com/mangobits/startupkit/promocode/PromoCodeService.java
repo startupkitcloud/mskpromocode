@@ -11,4 +11,6 @@ public interface PromoCodeService {
 	void createPromoCode(PromoCode promoCode) throws ApplicationException, BusinessException;
 	
 	PromoCode redeemCode(RedeemCode redeemCode) throws ApplicationException, BusinessException;
+	
+	PromoCode loadCode(String id) throws ApplicationException, BusinessException;
 }
