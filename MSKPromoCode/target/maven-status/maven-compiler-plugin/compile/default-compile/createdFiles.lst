@@ -5,4 +5,5 @@ com/mangobits/startupkit/promocode/PromoCodeDAO.class
 com/mangobits/startupkit/promocode/PromoCodeRestService.class
 com/mangobits/startupkit/promocode/PromoCodeStatusEnum.class
 com/mangobits/startupkit/promocode/PromoCodeTypeEnum.class
+com/mangobits/startupkit/promocode/PromoCodeServiceImpl$1.class
 com/mangobits/startupkit/promocode/PromoCode.class

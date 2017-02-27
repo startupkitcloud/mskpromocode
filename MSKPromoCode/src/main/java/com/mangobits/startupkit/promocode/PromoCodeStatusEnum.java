@@ -4,5 +4,6 @@ public enum PromoCodeStatusEnum {
 
 	ACTIVE,
 	EXPIRED,
-	USED
+	USED,
+	CANCELED
 }

@@ -52,6 +52,10 @@ public class PromoCode {
 	
 	
 	
+	private String idUserInvited;
+	
+	
+	
 	@Enumerated(EnumType.STRING)
 	private PromoCodeTypeEnum type;
 	
@@ -198,5 +202,17 @@ public class PromoCode {
 
 	public void setConsumeDate(Date consumeDate) {
 		this.consumeDate = consumeDate;
+	}
+
+
+
+	public String getIdUserInvited() {
+		return idUserInvited;
+	}
+
+
+
+	public void setIdUserInvited(String idUserInvited) {
+		this.idUserInvited = idUserInvited;
 	}
 }
