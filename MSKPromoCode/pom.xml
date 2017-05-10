@@ -3,7 +3,7 @@
   	<modelVersion>4.0.0</modelVersion>
     <groupId>com.mangobits.startupkit.promocode</groupId>
     <artifactId>MSKPromoCode</artifactId>
-    <version>1.0.16</version>
+    <version>1.0.18</version>
     <packaging>ejb</packaging>
  
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,10 +46,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         
         <!-- msk config versions -->
-		<msk-core-version>1.0.19</msk-core-version>
-		<msk-user-version>1.0.28</msk-user-version>
-		<msk-admin-version>1.0.5</msk-admin-version>
-		<msk-notification-version>1.0.18</msk-notification-version>
+		<msk-core-version>1.0.37</msk-core-version>
+		<msk-user-version>1.0.44</msk-user-version>
+		<msk-admin-version>1.0.15</msk-admin-version>
+		<msk-notification-version>1.0.23</msk-notification-version>
     </properties> 
     
     <dependencies>

@@ -12,9 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangobits.startupkit.core.exception.BusinessException;
+import com.mangobits.startupkit.notification.email.EmailService;
 import com.mangobits.startupkit.service.admin.util.Secured;
 import com.mangobits.startupkit.ws.JsonContainer;
 
@@ -27,6 +27,10 @@ public class PromoCodeRestService {
 	@EJB
 	private PromoCodeService promoCodeService;
 	
+	
+	
+	@EJB
+	private EmailService emailService;
 	
 	
 	
@@ -52,6 +56,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		
@@ -87,6 +93,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -120,6 +128,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		
@@ -154,6 +164,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -188,6 +200,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		
@@ -222,6 +236,8 @@ public class PromoCodeRestService {
 			
 			cont.setSuccess(false);
 			cont.setDesc(e.getMessage());
+			
+			emailService.sendEmailError(e);
 		}
 		
 		
