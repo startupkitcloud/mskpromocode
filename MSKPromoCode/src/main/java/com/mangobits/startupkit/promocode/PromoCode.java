@@ -72,6 +72,10 @@ public class PromoCode {
 	
 	
 	private Double discountValue;
+
+
+
+	private Boolean multiUser;
 	
 	
 	
@@ -215,5 +219,14 @@ public class PromoCode {
 
 	public void setIdUserInvited(String idUserInvited) {
 		this.idUserInvited = idUserInvited;
+	}
+
+
+	public Boolean getMultiUser() {
+		return multiUser;
+	}
+
+	public void setMultiUser(Boolean multiUser) {
+		this.multiUser = multiUser;
 	}
 }

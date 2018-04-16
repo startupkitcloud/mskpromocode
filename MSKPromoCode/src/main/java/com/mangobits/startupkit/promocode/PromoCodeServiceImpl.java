@@ -59,14 +59,32 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 		
 		try {
 			
-			promoCode.setCode(generatePromoCodeNumber());
+			if(promoCode.getCode() == null || promoCode.getCode().equals("")){
+				promoCode.setCode(generatePromoCodeNumber());
+			}
+			else{
+				Map<String, Object> params = new HashMap<>();
+				params.put("code", promoCode.getCode());
+				PromoCode key = promoCodeDAO.retrieve(params);
+
+				if(key != null){
+					throw new BusinessException("code_exists");
+				}
+			}
+
 			promoCode.setCreationDate(new Date());
 			promoCode.setStatus(PromoCodeStatusEnum.ACTIVE);
 			
 			promoCodeDAO.insert(promoCode);
 			
 		} catch (Exception e) {
-			throw new ApplicationException("Got an error creating a new promo code", e);
+
+			if(e instanceof BusinessException){
+				throw (BusinessException) e;
+			}
+			else{
+				throw new ApplicationException("Got an error creating a new promo code", e);
+			}
 		}
 	}
 	
@@ -106,7 +124,11 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 			}
 			
 			promoCode.setConsumeDate(new Date());
-			promoCode.setStatus(PromoCodeStatusEnum.USED);
+
+			if(promoCode.getMultiUser() == null || !promoCode.getMultiUser()){
+				promoCode.setStatus(PromoCodeStatusEnum.USED);
+			}
+
 			promoCode.setIdUserConsumer(user.getId());
 			
 			promoCodeDAO.update(promoCode);

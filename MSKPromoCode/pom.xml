@@ -3,7 +3,7 @@
   	<modelVersion>4.0.0</modelVersion>
     <groupId>com.mangobits.startupkit.promocode</groupId>
     <artifactId>MSKPromoCode</artifactId>
-    <version>1.0.18</version>
+    <version>1.0.19</version>
     <packaging>ejb</packaging>
  
     <name>${project.groupId}:${project.artifactId}</name>
@@ -20,9 +20,9 @@
     <developers>
         <developer>
             <name>Diego Mondego</name>
-            <email>diego@mangobits.net</email>
+            <email>diego@mangobits.com</email>
             <organization>MangoBits</organization>
-            <organizationUrl>https://www.mangobits.net</organizationUrl>
+            <organizationUrl>https://www.mangobits.com</organizationUrl>
         </developer>
     </developers>
  
@@ -169,5 +169,11 @@
 			</plugins>
 		</pluginManagement>
   	</build>
-  
+
+	<distributionManagement>
+		<repository>
+			<id>mangobits-startupkit-repository</id>
+			<url>http://dev.mangobits.net:8081/artifactory/libs-release-local/</url>
+		</repository>
+	</distributionManagement>
 </project>

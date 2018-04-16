@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="MSKPromoCode:ejb exploded">
+    <output-path>$PROJECT_DIR$/target/MSKPromoCode</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="MSKPromoCode/ejb/EJB" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/MSKPromoCode/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="MSKPromoCode" />
+    </root>
+  </artifact>
+</component>
