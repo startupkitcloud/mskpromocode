@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.mangobits.startupkit.core.exception.ApplicationException;
 import com.mangobits.startupkit.core.exception.BusinessException;
+import com.mangobits.startupkit.core.exception.DAOException;
 
 @Local
 public interface PromoCodeService {
@@ -26,4 +27,7 @@ public interface PromoCodeService {
 	
 	
 	void cancelActivatePromoCode(String idPromoCode) throws ApplicationException, BusinessException;
+
+
+	PromoCode loadByCode (String code) throws DAOException;
 }

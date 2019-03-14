@@ -35,7 +35,15 @@ public class PromoCode {
 	@Field
 	private String code;
 	
-	
+
+	@Field
+	private String name;
+
+
+
+	private String desc;
+
+
 	
 	private Date creationDate;
 	
@@ -57,6 +65,17 @@ public class PromoCode {
 	
 	
 	
+	@Enumerated(EnumType.STRING)
+	private PromoCodeDurationTypeEnum durationType;
+
+
+
+	private Integer ocurrences;
+
+
+	private Integer maxRedeem;
+
+
 	@Enumerated(EnumType.STRING)
 	private PromoCodeTypeEnum type;
 	
@@ -111,6 +130,30 @@ public class PromoCode {
 
 
 
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public String getDesc() {
+		return desc;
+	}
+
+
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+
+
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -143,6 +186,42 @@ public class PromoCode {
 
 	public void setIdUserConsumer(String idUserConsumer) {
 		this.idUserConsumer = idUserConsumer;
+	}
+
+
+
+	public PromoCodeDurationTypeEnum getDurationType() {
+		return durationType;
+	}
+
+
+
+	public void setDurationType(PromoCodeDurationTypeEnum durationType) {
+		this.durationType = durationType;
+	}
+
+
+
+	public Integer getOcurrences() {
+		return ocurrences;
+	}
+
+
+
+	public void setOcurrences(Integer ocurrences) {
+		this.ocurrences = ocurrences;
+	}
+
+
+
+	public Integer getMaxRedeem() {
+		return maxRedeem;
+	}
+
+
+
+	public void setMaxRedeem(Integer maxRedeem) {
+		this.maxRedeem = maxRedeem;
 	}
 
 

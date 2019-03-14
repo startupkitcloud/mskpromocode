@@ -15,12 +15,13 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangobits.startupkit.core.exception.BusinessException;
 import com.mangobits.startupkit.notification.email.EmailService;
-import com.mangobits.startupkit.service.admin.util.Secured;
+import com.mangobits.startupkit.user.util.SecuredUser;
+import com.mangobits.startupkit.user.util.UserBaseRestService;
 import com.mangobits.startupkit.ws.JsonContainer;
 
 @Stateless
 @Path("/promoCode")
-public class PromoCodeRestService {
+public class PromoCodeRestService extends UserBaseRestService {
 
 	
 	
@@ -70,7 +71,7 @@ public class PromoCodeRestService {
 	
 	
 	
-	@Secured
+	@SecuredUser
 	@GET
 	@Path("/listAll")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -105,7 +106,7 @@ public class PromoCodeRestService {
 	
 	
 	
-	@Secured
+	@SecuredUser
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -142,7 +143,7 @@ public class PromoCodeRestService {
 	
 	
 	
-	@Secured
+	@SecuredUser
 	@GET
 	@Path("/loadCode/{idCode}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -177,7 +178,7 @@ public class PromoCodeRestService {
 	
 	
 	
-	@Secured
+	@SecuredUser
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -213,7 +214,7 @@ public class PromoCodeRestService {
 	
 	
 	
-	@Secured
+	@SecuredUser
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

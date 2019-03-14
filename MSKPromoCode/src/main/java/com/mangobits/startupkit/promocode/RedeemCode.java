@@ -9,6 +9,9 @@ public class RedeemCode {
 	private String code;
 
 
+	private String idObj;
+
+
 	public String getIdUser() {
 		return idUser;
 	}
@@ -26,5 +29,15 @@ public class RedeemCode {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+
+	public String getIdObj() {
+		return idObj;
+	}
+
+
+	public void setIdObj(String idObj) {
+		this.idObj = idObj;
 	}
 }

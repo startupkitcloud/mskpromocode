@@ -15,8 +15,10 @@ import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import com.mangobits.startupkit.core.configuration.ConfigurationService;
+import com.mangobits.startupkit.core.dao.SearchBuilder;
 import com.mangobits.startupkit.core.exception.ApplicationException;
 import com.mangobits.startupkit.core.exception.BusinessException;
+import com.mangobits.startupkit.core.exception.DAOException;
 import com.mangobits.startupkit.core.utils.MessageUtils;
 import com.mangobits.startupkit.notification.NotificationBuilder;
 import com.mangobits.startupkit.notification.NotificationService;
@@ -74,49 +76,88 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 
 	@Override
 	public PromoCode redeemCode(RedeemCode redeemCode) throws ApplicationException, BusinessException {
-		
+
 		PromoCode promoCode = null;
-		
+
 		try {
-			
-			User user = userService.load(redeemCode.getIdUser());
-			
+
+			User user = userService.retrieve(redeemCode.getIdUser());
+
 			if(user == null){
 				throw new BusinessException("user_not_found");
 			}
-			
+
 			Map<String, Object> params = new HashMap<>();
 			params.put("code", redeemCode.getCode());
-			
+
 			promoCode = promoCodeDAO.retrieve(params);
-			
+
 			if(promoCode == null){
 				throw new BusinessException("promocode_not_found");
 			}
-			
+
 			if(promoCode.getExpirationDate().before(new Date())){
 				promoCode.setStatus(PromoCodeStatusEnum.EXPIRED);
 				promoCodeDAO.update(promoCode);
-				
+
 				throw new BusinessException("promocode_expired");
 			}
-			
+
 			if(promoCode.getStatus().equals(PromoCodeStatusEnum.USED)){
 				throw new BusinessException("promocode_used");
 			}
-			
-			promoCode.setConsumeDate(new Date());
-			promoCode.setStatus(PromoCodeStatusEnum.USED);
-			promoCode.setIdUserConsumer(user.getId());
-			
-			promoCodeDAO.update(promoCode);
-			
+
+			if(promoCode.getMaxRedeem() != null && promoCode.getMaxRedeem()>0){
+				promoCode.setMaxRedeem(promoCode.getMaxRedeem() -1);
+			} else{
+				throw new BusinessException("promocode_expired");
+			}
+
+
+			if(promoCode.getDurationType() !=null){
+
+				if(promoCode.getDurationType() == PromoCodeDurationTypeEnum.ONCE){
+					promoCode.setConsumeDate(new Date());
+					promoCode.setStatus(PromoCodeStatusEnum.USED);
+					promoCode.setIdUserConsumer(user.getId());
+
+					promoCodeDAO.update(promoCode);
+				}
+
+				if(promoCode.getDurationType() == PromoCodeDurationTypeEnum.REPEATING){
+					if(promoCode.getOcurrences()>0){
+						promoCode.setOcurrences( promoCode.getOcurrences() -1);
+						promoCode.setConsumeDate(new Date());
+						promoCode.setIdUserConsumer(user.getId());
+						promoCodeDAO.update(promoCode);
+
+						if(promoCode.getOcurrences() == 0){
+							promoCode.setConsumeDate(new Date());
+							promoCode.setStatus(PromoCodeStatusEnum.USED);
+							promoCode.setIdUserConsumer(user.getId());
+
+							promoCodeDAO.update(promoCode);
+						}
+					}else{
+						throw new BusinessException("promocode_expired");
+					}
+				}
+			} else {
+				promoCode.setConsumeDate(new Date());
+				promoCode.setStatus(PromoCodeStatusEnum.USED);
+				promoCode.setIdUserConsumer(user.getId());
+
+				promoCodeDAO.update(promoCode);
+			}
+
+
+
 		} catch (BusinessException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new ApplicationException("Got an error trying to redeem a promo code", e);
 		}
-		
+
 		return promoCode;
 	}
 	
@@ -205,9 +246,9 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 				discountData = promoCode.getDiscountPercent() + "%";
 			}
 			
-			User user = userService.load(idUser);
+			User user = userService.retrieve(idUser);
 			String title = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.title");
-			String message = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.message", discountData, promoCode.getCode());
+			String msg = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.message", discountData, promoCode.getCode());
 			String configKeyLang = user.getLanguage() == null ? "" : "_" + user.getLanguage().toUpperCase();
 			final int emailTemplateId = configurationService.loadByCode("PROMO_CODE_ID" + configKeyLang).getValueAsInt();
 			final String discount = discountData;
@@ -216,7 +257,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 					.setTo(user)
 					.setTypeSending(TypeSendingNotificationEnum.EMAIL)
 					.setTitle(title)
-					.setMessage(message)
+					.setMessage(msg)
 					.setEmailDataTemplate(new EmailDataTemplate() {
 						
 						@Override
@@ -225,9 +266,9 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 						}
 						
 						@Override
-						public Map<String, String> getData() {
+						public Map<String, Object> getData() {
 							
-							Map<String, String> params = new HashMap<>();
+							Map<String, Object> params = new HashMap<>();
 							params.put("user_name", user.getName());
 							params.put("discount", discount);
 							params.put("code", promoCode.getCode());
@@ -263,5 +304,16 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 		} catch (Exception e) {
 			throw new ApplicationException("Got an error cancel or activating a promocode", e);
 		}
+	}
+
+
+	@Override
+	public PromoCode loadByCode (String code) throws DAOException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("code", code);
+
+		PromoCode promoCode = promoCodeDAO.retrieve(params);
+
+		return promoCode;
 	}
 }
