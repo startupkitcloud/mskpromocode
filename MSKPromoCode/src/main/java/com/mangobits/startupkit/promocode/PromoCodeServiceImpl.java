@@ -15,7 +15,6 @@ import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import com.mangobits.startupkit.core.configuration.ConfigurationService;
-import com.mangobits.startupkit.core.dao.SearchBuilder;
 import com.mangobits.startupkit.core.exception.ApplicationException;
 import com.mangobits.startupkit.core.exception.BusinessException;
 import com.mangobits.startupkit.core.exception.DAOException;
@@ -248,7 +247,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 			
 			User user = userService.retrieve(idUser);
 			String title = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.title");
-			String msg = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.message", discountData, promoCode.getCode());
+			String msg = MessageUtils.message(LanguageEnum.localeByLanguage(user.getLanguage()), "promo.message.message");
 			String configKeyLang = user.getLanguage() == null ? "" : "_" + user.getLanguage().toUpperCase();
 			final int emailTemplateId = configurationService.loadByCode("PROMO_CODE_ID" + configKeyLang).getValueAsInt();
 			final String discount = discountData;
@@ -257,7 +256,7 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 					.setTo(user)
 					.setTypeSending(TypeSendingNotificationEnum.EMAIL)
 					.setTitle(title)
-					.setMessage(msg)
+					.setMessage("")
 					.setEmailDataTemplate(new EmailDataTemplate() {
 						
 						@Override
@@ -266,11 +265,17 @@ public class PromoCodeServiceImpl implements PromoCodeService {
 						}
 						
 						@Override
-						public Map<String, Object> getData() {
+						public Map<String, String> getData() {
 							
-							Map<String, Object> params = new HashMap<>();
+							Map<String, String> params = new HashMap<>();
 							params.put("user_name", user.getName());
-							params.put("discount", discount);
+							params.put("msg", msg);
+							if(promoCode.getType().equals(PromoCodeTypeEnum.FIXED_VALUE)){
+								params.put("discount", "R$" + promoCode.getDiscountValue().toString());
+							}else{
+								params.put("discount", "%" + promoCode.getDiscountPercent().toString());
+							}
+
 							params.put("code", promoCode.getCode());
 							
 							return params;
