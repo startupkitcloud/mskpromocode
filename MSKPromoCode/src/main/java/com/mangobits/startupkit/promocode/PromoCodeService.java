@@ -1,32 +1,29 @@
 package com.mangobits.startupkit.promocode;
 
-import java.util.List;
+import com.mangobits.startupkit.core.exception.DAOException;
 
 import javax.ejb.Local;
-
-import com.mangobits.startupkit.core.exception.ApplicationException;
-import com.mangobits.startupkit.core.exception.BusinessException;
-import com.mangobits.startupkit.core.exception.DAOException;
+import java.util.List;
 
 @Local
 public interface PromoCodeService {
 	
-	void createPromoCode(PromoCode promoCode) throws ApplicationException, BusinessException;
+	void createPromoCode(PromoCode promoCode) throws Exception;
 	
 	
-	PromoCode redeemCode(RedeemCode redeemCode) throws ApplicationException, BusinessException;
+	PromoCode redeemCode(RedeemCode redeemCode) throws Exception;
 	
 	
-	PromoCode loadCode(String id) throws ApplicationException, BusinessException;
+	PromoCode loadCode(String id) throws Exception;
 	
 	
-	List<PromoCode> listAll() throws ApplicationException, BusinessException;
+	List<PromoCode> listAll() throws Exception;
 	
 	
-	void sendToUser(String idPromoCode, String idUser) throws ApplicationException, BusinessException;
+	void sendToUser(String idPromoCode, String idUser) throws Exception;
 	
 	
-	void cancelActivatePromoCode(String idPromoCode) throws ApplicationException, BusinessException;
+	void cancelActivatePromoCode(String idPromoCode) throws Exception;
 
 
 	PromoCode loadByCode (String code) throws DAOException;
